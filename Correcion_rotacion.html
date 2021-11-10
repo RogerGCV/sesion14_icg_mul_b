@@ -2,18 +2,29 @@
     <script>
         function centroGeom(coordenada) {
             tr = [0, 0]
+            veiX=coordenada[0], vesX=coordenada[0]  //velores extremos inferiores y superiores
+            veiY=coordenada[1], vesY=coordenada[1]  //tanto en x como en y
 
-            for (var i = 0; i < coordenadas.length; i++){
-            var j=0;
-            var k=0;
-            if(i%2==0){
-             j=i;
-            if(j>)
-            }
-            }
+            for (i = 2; i < coordenada.length; i+=2){
+                if(veiX > coordenada[i]){
+                   veiX = coordenada[i];
+                }if(vesX < coordenada[i]){
+                   vesX = coordenada[i];
+            }}
+
+            for (i = 2; i < coordenada.length; i+=2){
+                if(veiY > coordenada[i]){
+                   veiY = coordenada[i];
+                }if(vesY < coordenada[i]){
+                   vesY = coordenada[i];
+            }}
+            
+            promX=-(vesX+veiX)/2;
+            promY=-(vesY+veiY)/2;
+            tr = [promX, promY]
             return tr;
         }
-
+ 
         function polygon(a, colorBorde, colorRelleno) {
             ctx.beginPath()
             ctx.strokeStyle = colorBorde
@@ -26,14 +37,27 @@
             ctx.fill()
         }
 
+    function SumaTransl(a,b){
+	var s = [];
+	for (i=0; i < a.length; i+=2){
+	s[i]=(a[i]+b[0])
+	s[i+1]=(a[i+1]+b[1])
+        }
+	return s;
+}
+
         var canvas = document.getElementById("canvas");
         var ctx = canvas.getContext("2d");
     
-        var letra_V =[0,0, 10, 0, 20, 30, 30, 0, 40, 0, 30,40, 10, 40];
+        var letra_V =[0,0, 50, 0, 100, 150, 150, 0, 200, 0, 150,200, 50, 200];
 
-        polygon(letra_V, 'purple', 'red');
+        var vec_trans = [40, 40];
 
-        vt = centroGeom(letra_V);    // calcular el vecor de traslacion [x, y]
+        var LetraV_trans = SumaTransl(letra_V, vec_trans)
+        
+        polygon(LetraV_trans, 'purple', 'red');
+
+        vt = centroGeom(letra_V);    // calcular el vector de traslacion [x, y]
 
         ctx.translate(-vt[0], -vt[1]);   // ubicacion centro de la figura en el origen de coordenadas
 
@@ -41,6 +65,6 @@
 
         ctx.translate(vt[0], vt[1]);    // retorno de la figura al punto inicial
 
-        polygon(letra_V, 'red', 'blue');
+        polygon(LetraV_trans, 'red', 'blue');
 
     </script>
